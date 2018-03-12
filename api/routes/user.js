@@ -12,34 +12,41 @@ const util = new utils();
 
 const User = require("../../models/users");
 
-router.post("/singup", (req, res, next) => {
-    User.find({username: req.body.username})
-        .exec()
-        .then(user => {
-            if (user.length >= 1) {
-                return res.status(409).json({
-                    message: "user name exists"
-                });
-            } else {
-                const encPass = util.encrypt(req.body.password.toString());
-                const user = new User({
-                    _id: new mongoose.Types.ObjectId(),
-                    username: req.body.username,
-                    password: encPass,
-                    type: req.body.type
-                });
-                user
-                    .save()
-                    .then(data => res.status(201).json(data))
-                    .catch(err => res.status(500).json({error: err}));
-            }
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
+
+router.post("/singup", async (req, res, next) => {
+    try {
+        let status = null;
+        let response;
+        const user = await User.findOne({
+            username: req.body.username
+        }).exec();
+        if (user) {
+            status = 509;
+            throw new Error("user name exists");
+        }
+        const encPass = util.encrypt(req.body.password.toString());
+        const user = new User({
+            _id: new mongoose.Types.ObjectId(),
+            username: req.body.username,
+            password: encPass,
+            type: req.body.type
         });
+        response = await user.save().catch(err => {
+            status = 500;
+            throw err;
+        });
+        status = 200;
+    } catch (err) {
+        status = status || 500;
+        response = {
+            message: err.message
+        }
+    } finally {
+        res.status(status).json(response);
+        res.end();
+    }
 });
+
 
 router.post("/login", (req, res, next) => {
     User.find({username: req.body.username})

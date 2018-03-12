@@ -1,18 +1,31 @@
 {
-  "name": "nodeserve",
+  "name": "noderest",
   "version": "1.0.0",
-  "description": "",
+  "description": "node rest api",
   "main": "index.js",
-  "dependencies": {
-    "express": "^4.16.2",
-    "mongodb": "^3.0.1",
-    "mongoose": "^4.13.9"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon --inspect server.js"
   },
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "rest",
+    "node",
+    "mongodb"
+  ],
+  "author": "yanai edri",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "^4.13.9",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
+  },
+  "quokka": {
+    "babel": true
+  }
 }

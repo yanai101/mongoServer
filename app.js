@@ -8,7 +8,7 @@ const actionLogRoute = require('./api/routes/actionLog');
 const userRoute = require('./api/routes/user');
 const appConfig = require('./appConfig.js');
 
-const CROSS = true;
+const CROS = true;
 //mongodb connect...
 //todo:check why not working... app config
 mongoose.connect(appConfig.mongo.path , {useMongoClient:true});
@@ -23,7 +23,7 @@ app.use(bodyparser.json());
 
 
 app.use((req, res, next) => {
-    if (CROSS) {
+    if (CROS) {
         res.header('Access-Control-Allow-origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With , Content-Type ,Accept ,Authorization');
         if (req.method === 'OPTIONS') {

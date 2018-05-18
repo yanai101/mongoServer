@@ -38,13 +38,15 @@ app.use((req, res, next) => {
 //Routes for the api reqest
 app.use('/api/actionLog', actionLogRoute);
 app.use('/api/users', userRoute);
+
 // for 404
 app.use((req, res, next) => {
     const error = new Error("Requset not found");
     error.status = 404;
     next(error);
 });
-// req error handling
+
+// req error handling (Express error Middleware)
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.json({

@@ -10,9 +10,8 @@ const appConfig = require('./appConfig.js');
 
 const CROS = true;
 //mongodb connect...
-//todo:check why not working... app config
-mongoose.connect(appConfig.mongo.path , {useMongoClient:true});
-mongoose.Promise = global.Promise;
+// mongoose.connect(appConfig.mongo.path, { useNewUrlParser: true }); // {useMongoClient:true}
+// mongoose.Promise = global.Promise;
 
 
 //logger
@@ -34,10 +33,12 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('/test',(req,res)=> res.send('Hello World!'))
 
 //Routes for the api reqest
 app.use('/api/actionLog', actionLogRoute);
 app.use('/api/users', userRoute);
+
 
 // for 404
 app.use((req, res, next) => {
@@ -45,6 +46,8 @@ app.use((req, res, next) => {
     error.status = 404;
     next(error);
 });
+
+
 
 // req error handling (Express error Middleware)
 app.use((error, req, res, next) => {

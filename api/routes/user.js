@@ -25,13 +25,13 @@ router.post("/singup", async (req, res, next) => {
             throw new Error("user name exists");
         }
         const encPass = util.encrypt(req.body.password.toString());
-        const user = new User({
+        const newuser = new User({
             _id: new mongoose.Types.ObjectId(),
             username: req.body.username,
             password: encPass,
             type: req.body.type
         });
-        response = await user.save().catch(err => {
+        response = await newuser.save().catch(err => {
             status = 500;
             throw err;
         });
